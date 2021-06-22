@@ -6,8 +6,8 @@ defaults:
   image:
     pullPolicy: "IfNotPresent"
     repository: "mainflux"
-    tag: "0.12.0"
-  # Replicas of MQTT adapter, NATS, Things, Envoy and Auth
+    tag: "0.12.1"
+  # Replicas of MQTT adapter, NATS, Things, Envoy and Authn
   replicaCount: 3
   natsPort: 4222
   jaegerPort: 6831
@@ -17,20 +17,20 @@ ingress:
   annotations: {}
   labels: {}
   # Uncomment this block for TLS support in public ingress
-  # hostname: ""
-  # tls:
-  #   hostname: ""
-  #   secret: "mainflux-server"
+  hostname: "iot.ashvin.eu"
+  tls:
+    hostname: "iot.ashvin.eu"
+    secret: "mainflux-server"
 
 nginxInternal:
   mtls:
     # By default mTLS is disabled. If you use mTLS, comment this block.
-    tls: ""
-    intermediateCrt: ""
+    # tls: ""
+    # intermediateCrt: ""
     # Uncomment this block for TLS and mTLS support.
     # Use sh script from /secrets/secrets.sh to create config maps with your certs
-    # tls: "mainflux-server"
-    # intermediateCrt: "ca"
+    tls: "mainflux-server"
+    intermediateCrt: "ca"
 
 adapter_http:
   image: {}
@@ -124,7 +124,7 @@ bootstrap:
   redisESPort: 6379
 
 certs:
-  enabled: false
+  enabled: true
   image: {}
   dbPort: 5432
   httpPort: 8204
@@ -144,11 +144,14 @@ certs:
   signVaultRole: "agent"
 
 ui:
-  image: {}
+  image:
+    pullPolicy: "IfNotPresent"
+    repository: "mainflux"
+    tag: "ashvin.0.5.0"
   port: 3000
 
 influxdb:
-  enabled: false
+  enabled: true
   dbPort: 8086
   writer:
     image: {}
@@ -289,7 +292,7 @@ jaeger-operator:
     clusterRole: true
 
 twins:
-  enabled: false
+  enabled: true
   image: {}
   dbPort: 27017
   httpPort: 9021
