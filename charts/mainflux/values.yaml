@@ -17,9 +17,9 @@ ingress:
   annotations: {}
   labels: {}
   # Uncomment this block for TLS support in public ingress
-  hostname: "iot.ashvin.eu"
+  hostname: "ashvin01.mainflux.io"
   tls:
-    hostname: "iot.ashvin.eu"
+    hostname: "ashvin01.mainflux.io"
     secret: "mainflux-server"
 
 nginxInternal:
@@ -124,7 +124,7 @@ bootstrap:
   redisESPort: 6379
 
 certs:
-  enabled: true
+  enabled: false
   image: {}
   dbPort: 5432
   httpPort: 8204
@@ -166,7 +166,8 @@ influxdb:
     pwd: "mainflux"
   configPath: "/config.toml"
   contentType: "application/senml+json"
-  transformer: "senml"
+  transformerSenml: "senml"
+  transformerJson: "json"
   backup:
     enabled: false
     cronjob:
@@ -292,7 +293,7 @@ jaeger-operator:
     clusterRole: true
 
 twins:
-  enabled: true
+  enabled: false
   image: {}
   dbPort: 27017
   httpPort: 9021
